@@ -10,6 +10,10 @@ pipeline {
       steps {
         sh 'echo passed'
         //git branch: 'main', url: 'https://github.com/harsha81-tech/Jenkins-Zero-To-Hero.git'
+        sh ''' 
+        apt-get update
+        apt-get install -y docker.io
+              
       }
     }
     stage('Build and Test') {
