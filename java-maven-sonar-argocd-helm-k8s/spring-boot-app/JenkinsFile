@@ -8,12 +8,6 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        deleteDir()
-        git branch: 'main', url: 'https://github.com/harsha81-tech/updated-code.git'
-      }
-    }
-    stage('Build') {
-      steps {
         sh ''' 
         apt-get update
         apt-get install -y docker.io
