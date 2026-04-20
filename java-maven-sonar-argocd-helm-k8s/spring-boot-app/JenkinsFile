@@ -8,13 +8,17 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/harsha81-tech/Jenkins-Zero-To-Hero.git'
+        deleteDir() 
+        git branch: 'main', url: "https://github.com/harsha81-tech/updated-code.git"
+
+      }
+    }
+    stage('Setup Docker'){
+      steps{
         sh ''' 
         apt-get update
         apt-get install -y docker.io
         '''
-              
       }
     }
     stage('Build and Test') {
