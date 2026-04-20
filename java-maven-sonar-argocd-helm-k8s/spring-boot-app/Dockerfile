@@ -5,6 +5,8 @@ USER root
 
 RUN apt-get update && apt-get install -y docker.io
 
+RUN apt-get update && apt-get install -y git bash
+
 # Simply the artifact path
 ARG artifact=target/spring-boot-web.jar
 
