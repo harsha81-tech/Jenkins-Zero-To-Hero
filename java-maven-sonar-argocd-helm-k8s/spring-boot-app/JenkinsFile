@@ -47,19 +47,19 @@ pipeline {
         }
       }
     }
-   stage('Update Deployment File') {
+    stage('Update Deployment File') {
     steps {
         script {
             withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
 
                 sh '''
-                    # sanity check (VERY IMPORTANT)
-                    ls -la
-
-                    git status
+                    # FIX: allow Jenkins workspace for git
+                    git config --global --add safe.directory /var/lib/jenkins/workspace/cicd
 
                     git config user.email "harsha9842@gmail.com"
                     git config user.name "harsha81-tech"
+
+                    git status
 
                     git add .
 
@@ -72,6 +72,6 @@ pipeline {
             }
         }
       }
-    } 
+    }
   }
 }
