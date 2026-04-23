@@ -59,6 +59,8 @@ pipeline {
                     git config user.email "harsha9842@gmail.com"
                     git config user.name "harsha81-tech"
 
+                    git checkout -B main
+
                     git status
 
                     git add .
