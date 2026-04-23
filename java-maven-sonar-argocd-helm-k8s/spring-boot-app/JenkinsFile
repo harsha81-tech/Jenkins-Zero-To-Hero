@@ -47,24 +47,21 @@ pipeline {
         }
       }
     }
-     stage('Update Deployment File') {
+    stage('Update Deployment File') {
     steps {
-        withCredentials([usernamePassword(credentialsId: 'github',
-                                         usernameVariable: 'GIT_USER',
-                                         passwordVariable: 'GIT_TOKEN')]) {
+        withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
 
             sh """
-                git config --global user.email "harsha9842@gmail.com"
-                git config --global user.name "harsha81-tech"
+                git config user.email "harsha9842@gmail.com"
+                git config user.name "harsha81-tech"
 
-                # Ensure repo is clean checkout
                 git checkout main
 
                 git add .
 
-                git commit -m "Update JenkinsFile from CI" || echo "No changes"
+                git commit -m "Update from CI" || echo "No changes"
 
-                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/harsha81-tech/updated-file.git main
+                git push https://${GIT_TOKEN}@github.com/harsha81-tech/updated-file.git main
             """
         }
     }
