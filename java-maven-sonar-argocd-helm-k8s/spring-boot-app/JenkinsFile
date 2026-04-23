@@ -65,7 +65,7 @@ pipeline {
 
                     git commit -m "Update from CI" || echo "No changes"
 
-                    git remote set-url origin https://''' + GIT_TOKEN + '''@github.com/harsha81-tech/updated-file.git
+                    git remote set-url origin https://''' + GIT_TOKEN + '''@github.com/harsha81-tech/updated-code.git
 
                     git push origin main
                 '''
