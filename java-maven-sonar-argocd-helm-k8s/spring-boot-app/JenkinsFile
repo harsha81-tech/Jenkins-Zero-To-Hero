@@ -47,33 +47,27 @@ pipeline {
         }
       }
     }
-      stage('Update Deployment File') {
-         agent any
-         steps {
-            withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                 sh '''
-                 set -x
+     stage('Update Deployment File') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'github-creds',
+                                         usernameVariable: 'GIT_USER',
+                                         passwordVariable: 'GIT_TOKEN')]) {
 
-                 rm -rf repo
+            sh """
+                git config --global user.email "harsha9842@gmail.com"
+                git config --global user.name "harsha81-tech"
 
-                 git --version || (apt-get update && apt-get install -y git)
+                # Ensure repo is clean checkout
+                git checkout main
 
-                 git clone https://${GITHUB_TOKEN}@github.com/harsha81-tech/Jenkins-Zero-To-Hero.git repo
+                git add .
 
-                 cd repo
+                git commit -m "Update JenkinsFile from CI" || echo "No changes"
 
-                 git config user.email "harsha9842@gmail.com"
-                 git config user.name "harsha81-tech"
-
-                 sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-
-                 git add .
-                 git commit -m "Update deployment image to version ${BUILD_NUMBER}" || echo "No changes"
-
-                 git push origin main
-                 '''
-            }
+                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/harsha81-tech/updated-file.git main
+            """
         }
-     }
+    }
+}
   }
 }
