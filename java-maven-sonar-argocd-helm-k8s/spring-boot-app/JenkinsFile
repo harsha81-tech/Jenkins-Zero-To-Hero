@@ -47,27 +47,31 @@ pipeline {
         }
       }
     }
-    stage('Update Deployment File') {
-       steps {
-         script {
-             withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
+   stage('Update Deployment File') {
+    steps {
+        script {
+            withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
 
-                 sh '''
-                     git config user.email "harsha9842@gmail.com"
-                     git config user.name "harsha81-tech"
+                sh '''
+                    # sanity check (VERY IMPORTANT)
+                    ls -la
 
-                     # VERY IMPORTANT: ensure repo exists in workspace
-                     git checkout main
+                    git status
 
-                     git add .
+                    git config user.email "harsha9842@gmail.com"
+                    git config user.name "harsha81-tech"
 
-                     git commit -m "Update from CI" || echo "No changes"
+                    git add .
 
-                     git push https://''' + GIT_TOKEN + '''@github.com/harsha81-tech/updated-file.git main
-                  '''
-           }
-         }
-       }  
-     }
-   }
+                    git commit -m "Update from CI" || echo "No changes"
+
+                    git remote set-url origin https://''' + GIT_TOKEN + '''@github.com/harsha81-tech/updated-file.git
+
+                    git push origin main
+                '''
+            }
+        }
+      }
+    } 
+  }
 }
